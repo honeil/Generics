@@ -24,6 +24,7 @@ public class MyArrayListTest {
         Assert.assertTrue(test4);
         Assert.assertTrue(test5);
         Assert.assertTrue(test6);
+
     }
 
     @Test
@@ -44,6 +45,7 @@ public class MyArrayListTest {
         int numberOfAdds_expected = 6;
         int numberOfAdds_actual = myArrayList.getCounter();
         Assert.assertEquals(numberOfAdds_expected, numberOfAdds_actual);
+        Assert.assertTrue(myArrayList.getCounter()==myArrayList.size());
     }
 
     @Test
@@ -108,6 +110,18 @@ public class MyArrayListTest {
     }
 
     @Test
+    public void sizeTest_shouldReturnAnIntOfSizeOfArray(){
+        MyArrayList<String> myArrayList = new MyArrayList<String>(3);
+        myArrayList.add("Jim");
+        myArrayList.add("Pam");
+        myArrayList.add("Dwight");
+        myArrayList.remove("Pam");
+        int expectedLength = 2;
+        int actualLength = myArrayList.size();
+        Assert.assertEquals(expectedLength, actualLength);
+    }
+
+    @Test
     public void removeByIndexValueTest_ShouldReturnIntegerRemoved(){
         MyArrayList<Integer> myArrayList = new MyArrayList<Integer>(3);
         myArrayList.add(1);
@@ -128,16 +142,77 @@ public class MyArrayListTest {
     }
 
     @Test
-    public void removeByIndexValueTest_ShouldRemoveObjectAtIndex1(){
-        MyArrayList<String> myArrayList = new MyArrayList<String>(3);
+    public void removeByIndexValueTest_ShouldRemoveObjectAtIndex1() {
+        MyArrayList<String> myArrayList = new MyArrayList<String>(2);
         myArrayList.add("Jim");
         myArrayList.add("Pam");
         myArrayList.add("Dwight");
         myArrayList.remove("Pam");
         Assert.assertFalse(myArrayList.get(1).equals("Pam"));
         Assert.assertFalse(myArrayList.get(0).equals("Pam"));
-        Assert.assertTrue(myArrayList.getCounter()==2);
+        int arraySizeExpected = 2;
+        int arraySizeActual = myArrayList.size();
+        Assert.assertEquals(arraySizeExpected,arraySizeActual);
+        Assert.assertTrue(myArrayList.size()==myArrayList.getCounter());
     }
 
+    @Test
+    public void setNewValueAtIndexInput_ShouldReturnObjectAtIndexBeforeSetMethodWasUsed(){
+        MyArrayList<String> myArrayList = new MyArrayList<String>(2);
+        myArrayList.add("Jim");
+        myArrayList.add("Jim");
+        myArrayList.add("Jim");
+        myArrayList.add("Jim");
+        myArrayList.set(1,"Pam");
+        String expected = "Pam";
+        String actual = myArrayList.get(1).toString();
+        Assert.assertEquals(expected,actual);
+        Assert.assertTrue(myArrayList.size()==myArrayList.getCounter());
+    }
+
+    @Test
+    public void clearMethodTest_ResetsArraySizeToZero(){
+        MyArrayList<String> myArrayList = new MyArrayList<String>(2);
+        myArrayList.add("Toby");
+        myArrayList.add("Andy");
+        myArrayList.add("Kevin");
+        myArrayList.clear();
+        int expectedArraySize = 0;
+        int actualArraySize = myArrayList.size();
+        Assert.assertEquals(expectedArraySize, actualArraySize);
+        Assert.assertTrue(myArrayList.size()==myArrayList.getCounter());
+    }
+
+    @Test
+    public void isEmptyTest_shouldReturnTrueIfArrayIsEmpty_ArrayInitializedButNotFilled(){
+        MyArrayList<Integer> myArrayList = new MyArrayList<Integer>();
+        Assert.assertTrue(myArrayList.isEmpty());
+    }
+
+    @Test
+    public void isEmptyTest_shouldReturnFalse_ObjectsAddedToArray(){
+        MyArrayList<Integer> myArrayList = new MyArrayList<Integer>();
+        myArrayList.add(1);
+        myArrayList.add(2);
+        Assert.assertFalse(myArrayList.isEmpty());
+    }
+
+    @Test
+    public void containsTest_shouldReturnFalse_InputObjectNotInArray(){
+        MyArrayList<String> myArrayList = new MyArrayList<String>(2);
+        myArrayList.add("Toby");
+        myArrayList.add("Andy");
+        myArrayList.add("Kevin");
+        Assert.assertFalse(myArrayList.contains("Pam"));
+    }
+
+    @Test
+    public void containsTest_shouldReturnTru_InputObjectIsInArray(){
+        MyArrayList<String> myArrayList = new MyArrayList<String>(2);
+        myArrayList.add("Toby");
+        myArrayList.add("Andy");
+        myArrayList.add("Kevin");
+        Assert.assertTrue(myArrayList.contains("Kevin"));
+    }
 
 }
